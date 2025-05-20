@@ -30,10 +30,11 @@ public partial class MainView : UserControl
 
     private async void PingButton_Click(object sender, RoutedEventArgs e)
     {
-        using var ping = new Ping();
-        PingReply reply;
+        using var ping = new Ping(); 
+        PingReply reply; // Holds ping response
         try
         {
+            // Ping the host, give the information back to reply
             reply = await ping.SendPingAsync(HostBox.Text, 2000);
             if (reply.Status == IPStatus.Success)
             {
