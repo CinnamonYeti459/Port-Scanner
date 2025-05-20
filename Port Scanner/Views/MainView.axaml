@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Port_Scanner.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Port_Scanner.Views.MainView"
+             x:DataType="vm:MainViewModel">
+	<Design.DataContext>
+		<vm:MainViewModel />
+	</Design.DataContext>
+
+	<ScrollViewer Margin="20" VerticalScrollBarVisibility="Auto">
+	<StackPanel Margin="20" Spacing="12">
+
+		<Border Margin="5" CornerRadius="10" Background="Green" Padding="10">
+			<TextBlock HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Text="Port Scanner" Foreground="Black"/>
+		</Border>
+
+		<!-- Port Scan Results Grid -->
+		<DataGrid Margin="0,0,0,20"
+				  ItemsSource="{Binding ScanResults}"
+				  AutoGenerateColumns="False"
+				  GridLinesVisibility="All"
+				  BorderThickness="1"
+				  BorderBrush="Green"
+				  Name="PortDataGrid"
+				  Height="300">
+
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Port" Binding="{Binding Port}" IsReadOnly="True" Width="*"/>
+				<DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="True" Width="*"/>
+				<DataGridTextColumn Header="Service" Binding="{Binding Service}" IsReadOnly="True" Width="*"/>
+				<DataGridTextColumn Header="Banner" Binding="{Binding Banner}" IsReadOnly="True" Width="*"/>
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<TextBox x:Name="HostBox" Watermark="Host To Scan... (127.0.0.1)"/>
+
+		<TextBox x:Name="PortScanBoxStart" Watermark="Port Range To Start The Scan... (0-65535)"/>
+		<TextBox x:Name="PortScanBoxEnd" Watermark="Port Range To End The Scan... (0-65535)"/>
+
+		<StackPanel Orientation="Horizontal">
+		<Button Name="PortScanButton" Click="PortScanButton_Click" Margin="0,0,5,0">Scan Ports</Button>
+		<Button Name="PingButton" Click="PingButton_Click">Ping Host</Button>
+		</StackPanel>
+		<TextBlock Text="" Name="PingMessage" />
+
+		<StackPanel Orientation="Horizontal">
+			<Button Name="ReverseDNSButton" Click="ReverseDNSButton_Click" Margin="0,0,5,0">Reverse DNS Lookup</Button>
+			<Button Name="ClearReverseDNSButton" Click="ClearReverseDNSButton_Click">Clear</Button>
+		</StackPanel>
+		<TextBlock Text="" Name="ReverseDNSMessage" />
+
+		<StackPanel Orientation="Horizontal">
+			<Button Name="WhoIsButton" Click="WhoIsButton_Click" Margin="0,0,5,0">Who Is</Button>
+			<Button Name="ClearWhoIsButton" Click="ClearWhoIsButton_Click">Clear</Button>
+		</StackPanel>
+		
+		
+
+		<TextBlock Text="" Name="WhoIsMessage" />
+		
+		<Button Name="ExportToExcelButton" Click="ExportToExcelButton_Click">Export Data Grid To Excel</Button>
+
+		<ProgressBar Minimum="0" Maximum="100" Value="{Binding ScanProgress}" Height="20" Margin="0,10"/>
+		<TextBlock Text="{Binding ScanProgress, StringFormat='Progress: {0}%'}" HorizontalAlignment="Center" />
+
+		<TextBlock Text="My GitHub" FontSize="20" Foreground="Green"
+				   Cursor="Hand" TextDecorations="Underline"
+				   HorizontalAlignment="Center" Margin="20,20,0,0"
+				   PointerPressed="GitHubLink_Click"/>
+	</StackPanel>
+		</ScrollViewer>
+</UserControl>
